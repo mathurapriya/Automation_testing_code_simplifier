@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <!-- Beginning of head -->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Title</title>
+        
+        <!-- Bootstrap and jQuery-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript" >
+               google.load("jquery", "1.6.3");
+               google.load("jqueryui", "1.8.16");
+               $(init);
+        </script>
+        
+        <!--Framework CSS -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        
+        <!-- Font style -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico|Ranga|Lobster+Two" rel="stylesheet">
+        
+    <!--java script-->
+     <script>
+        $(init);
+         function init() {
+            var diagram = [];
+            var canvas = $(".canvas");
+            var tools = $(".tools");
+            $(".tool").draggable({
+                helper: "clone"
+            });
+            canvas.droppable({
+                drop: function(event, ui) {
+                    var node = {
+                        _id: (new Date).getTime(),
+                        position: ui.helper.position()
+                    };
+                    node.position.left -= canvas.position().left;
+                    if(ui.helper.hasClass("tool-1")){
+                        node.type = "TOOL-1";
+                    } else if(ui.helper.hasClass("tool-2")){
+                        node.type = "TOOL-2";
+                    } else if(ui.helper.hasClass("tool-3")){
+                        node.type = "TOOL-3";
+                    } else {
+                        return;
+                    }
+                    diagram.push(node);
+                    renderDiagram(diagram);
+                }
+            });
+            function renderDiagram(diagram) {
+
+                for(var d in diagram) {
+                    var node = diagram[d];
+                    var html = "";
+                    if(node.type === "TOOL-1") {
+                        html = "<p>isExist</font><input type='text' id='text1'/></p>";
+                    } else if(node.type === "TOOL-2") {
+                        html = "<p>getText</h3>";
+                    } else if(node.type === "TOOL-3") {
+                        html = "<h3>TOOL 3</h3>";
+                    }
+                    var dom = $(html).css({
+                        "position": "absolute",
+                        "top": node.position.top,
+                        "left": node.position.left
+                    }).draggable({
+                        stop: function(event, ui) {
+                            console.log(ui);
+                            var id = ui.helper.attr("id");
+                            for(var i in diagram) {
+                                if(diagram[i]._id == id) {
+                                    diagram[i].position.top = ui.position.top;
+                                    diagram[i].position.left = ui.position.left;
+                                }
+                            }
+                        }
+                    }).attr("id", node._id);
+                    canvas.append(dom);
+                    /*canvas.append(html);*/
+                }
+            }
+        }
+    </script><!--End of java script-->
+    
+    <!--css Styling-->
+    <style>
+        
+        .tool {
+            border: 2px solid white;
+            border-radius: 5px;
+            padding: 5px;
+            white-space: nowrap;
+            z-index: 2;
+            color: blue;
+        }
+        
+        .tools {
+            border: 2px solid black;
+            padding: 5px;
+            z-index: 2;
+        }
+        .scrollenabled {
+            overflow-x: scroll; 
+            overflow-y: hidden;
+           
+        }
+        
+        *{
+           font-family: 'Lobster Two', cursive;
+            font-size: 20px;
+        }
+        
+        
+        #background {
+        width: 100%; 
+        height: 100%; 
+        position: fixed; 
+        left: 0px; 
+        top: 0px; 
+        z-index: -1; /* Ensure div tag stays behind content; -999 might work, too. */
+        }
+
+        .stretch {
+            width:100%;
+            height:100%;
+        }
+     
+
+    </style> <!--End of css Styling-->
+        </head><!-- End of head-->
+    
+<!-- Beginning of Body -->
+<body scroll="no" style="overflow: none">
+    
+    <!-- Background image -->
+    <div id="background" class="well">
+    <!--<img src="https://i0.wallpaperscraft.com/image/mesh_points_background_silver_18524_300x168.jpg" class="stretch" alt="" />-->
+      
+        <!--container-->
+        <div class="container-fluid"
+         style="position: absolute;bottom: 0px;top: 0px;left: 0px;right: 0px;">
+            
+            <!-- Navbar -->
+            <nav class="navbar navbar-inverse">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#"><img src="dnd.png"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar"><font weight=bold>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Contact</a></li>
+                    </ul></font>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav><!-- End Navbar -->
+            
+            <!--row-->
+            <div class="row"
+             style="height: 90%;position: relative;">
+                <!--First column -->
+                <div class="col-lg-5 "
+                 style="position: absolute;left: 0px; top: 0px;bottom: 0px;">
+                    <ul class="nav nav-tabs" style="font-weight: bold;">
+
+                                <li class="nav-item">
+                                    <a href="#home" class="nav-link active" role="tab" data-toggle="tab">WebElement</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="#profile" class="nav-link" role="tab" data-toggle="tab">Operators</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="#about" class="nav-link" role="tab" data-toggle="tab">Conditions</a>
+                                </li>
+                            </ul>
+                            <br>
+                    <!--Row inside Row -->
+                    <div class="row"
+                         style="height: 85%;position: relative;">
+                        <!--First column of First column-->
+                        <div class="col-lg-4 well"
+                             style="border:solid;position: absolute;left: 10px; top: 0px;bottom: 0px;">
+                            
+                            <!-- Tab content -->
+                            <div class="tab-content">
+                                  <!-- WebElement Tab-->
+                                <div role="tabpanel" class="tab-pane fade in active" id="home">      
+                                    
+                                         <b>Select an element</b><br><br>
+                                    &nbsp;&nbsp;<a href="#Textbox" class="nav-link active"><b><i>Textbox</i></b> <span class="glyphicon glyphicon-arrow-right"></span></a> <br> 
+                                            &nbsp;&nbsp;<a href="#Button">Button</a> <br>
+                                            &nbsp;&nbsp;<a href="#Checkbox">Checkbox</a> <br>
+                                            &nbsp;&nbsp;<a href="#RadioButton">Radio Button</a> <br>
+                                            &nbsp;&nbsp; <a href="#Screenshot">Screenshot</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#Table">Table</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#Alert">Alert</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#Datepicker">Datepicker</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#DropdownListbox">DropdownList</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#ListboxMultipleselection">ListMultipleSelect</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#Browser">Browser</a> <br>
+                                            &nbsp;&nbsp;&nbsp;<a href="#Report">Report</a> <br>    
+                                    </span>
+                                </div><!--End of WebElement Tab--> 
+
+                                    <!-- Operators Tab-->
+                                    <div role="tabpanel" class="tab-pane fade" id="profile">2</div>
+                                    <!--End of Operators Tab--> 
+
+                                    <!-- Conditions Tab-->
+                                    <div role="tabpanel" class="tab-pane fade" id="about">3</div>
+                                    <!--End of Conditions Tab--> 
+
+
+                            </div><!--End of Tab content -->   
+                        
+                       
+                        
+                        
+                        
+                    </div><!--End of First column of First column-->
+                    
+                    <!--Second column of First column-->
+                    <div class="col-lg-5 well"
+                             style="position: absolute;left: 200px; top: 0px;bottom: 0px;">
+                        <center>
+                           <B> Blocks <br>  <br></B><font color = "blue">
+                            <div class="fade in active" id="test">
+                                <span class="tool tool-1">isExist</span>
+                            <br>  <br>
+                                <span class="tool tool-1">getText</span>
+                            <br> <br>
+                                <span class="tool tool-1">enterText</span>
+                            <br> <br>
+                                <span class="tool tool-1">clearText</span>
+                            <br> 
+                            </div>
+                           
+                    </div> <!--End of Second column of First column-->
+                  </div> <!--End of Row inside Row -->
+                </div><!--End of First column -->
+            
+                <!--Second column-->
+            
+                <div class="col-lg-5 canvas scrollenabled well"
+                 style="background-color: lightblue;position: absolute;right: 350px;bottom: 0px;top: 0px;">
+                 <ul class="nav nav-tabs">
+                  <li class="active"><a href="#">Workspace</a></li>
+                  <li><a href="#">Object StoreHouse</a></li>
+                  <li><a href="#">Code</a></li>
+                </ul>
+         
+                   <!-- <div class="canvas">
+                    <textarea  rows="17" cols="50" style="top=0px;" placeholder="Drag and Drop a block">
+                           
+                    </textarea>
+                    </div>
+                    <ul class="nav nav-tabs" style="font-weight: bold;">
+
+                                <li class="nav-item">
+                                    <a href="#home" class="nav-link active" role="tab" data-toggle="tab">Workspace</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="#profile" class="nav-link" role="tab" data-toggle="tab">Object Storehouse</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="#about" class="nav-link" role="tab" data-toggle="tab">Code</a>
+                                </li>
+                            </ul>
+                            <br>-->
+                </div><!--End of Second column-->
+            
+                <!--Third column-->
+                <div class="col-lg-3"
+                 style="position: absolute;right: 0px;bottom:0px;top: 0px;">
+                 <h2>Help</h2>
+            </div><!--End of Third column-->
+            
+            </div><!-- End of row-->
+        </div><!--End of container-->
+        
+    </div><!-- End of Background image -->
+    
+</body><!-- Beginning of Body -->
+    
+        
